@@ -1,9 +1,11 @@
----
 - hosts: localhost
   roles:
-    - framework
-    - intel
-    - xorg
-    - kde
-    # - i3
-    # - gnome
+    - role: framework
+    - role: intel
+      when: ansible_architecture == "intel"
+    - role: amd
+      when: ansible_architecture == "amd64"
+    - role: xorg
+    - role: kde
+  # - i3
+  # - gnome
