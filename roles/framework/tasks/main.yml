@@ -20,7 +20,7 @@
         value: "inet6 accept_rtadv"
         state: present
 - name: Install webcamd related packages
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   with_items:
@@ -44,19 +44,19 @@
     state: present
 # Xorg
 - name: Add user to video group
-  user:
+  ansible.builtin.user:
     name: '{{ ansible_user_id }}'
     groups: video
     append: true
 - name: Install Xorg packages
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   with_items:
     - xorg
 # GUI
 - name: Install GUI packages
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   with_items:
