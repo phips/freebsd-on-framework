@@ -1,12 +1,4 @@
 # AMD
-- name: Load CPU kernel modules
-  community.general.sysrc:
-    name: kld_list
-    value: "{{ item }}"
-    state: value_present
-  loop:
-    - amdtemp
-    - cpuctl
 # TODO: Is there a custom driver for AMD?
 # Intel has hwpstate_intel
 # - name: Don't enable powerd
@@ -22,8 +14,12 @@
   loop:
     - drm-kmod
     - gpu-firmware-kmod
-- name: Configure AMD DRM driver
+- name: Load CPU kernel modules
   community.general.sysrc:
     name: kld_list
-    value: "amdgpu"
+    value: "{{ item }}"
     state: value_present
+  loop:
+    - amdgpu
+    - amdtemp
+    - cpuctl

@@ -1,0 +1,4 @@
+- name: Restart webcamd
+  ansible.builtin.service:
+    name: webcamd
+    state: restarted

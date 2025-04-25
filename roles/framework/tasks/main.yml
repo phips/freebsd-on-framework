@@ -27,39 +27,47 @@
     - webcamd
     - v4l-utils
     - v4l_compat
-- name: Load cuse driver
+- name: Get webcam settings
+  ansible.builtin.shell:
+    cmd: set -o pipefail && webcamd -l | awk '/Webcam/ {gsub(/\[/, "", $0); gsub(/\]/, "", $0); sub(/^webcamd /, "", $0); print}'
+  changed_when: false
+  register: webcamd
+- name: sysrc setting for webcamd flags
   community.general.sysrc:
-    name: kld_list
-    value: "cuse"
+    name: 'webcamd_0_flags'
+    value: '{{ webcamd.stdout }}'
+  notify: 'Restart webcamd'
+#- name: Ensure user is in webcamd group
+#  ansible.builtin.user:
+#    name: '{{ username }}'
+#    groups: webcamd
+#    append: true
+- name: sysrc settings
+  community.general.sysrc:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
     state: value_present
+  loop:
+    - {name: 'webcamd_enable', value: 'YES'}
+    - {name: 'kld_list', value: 'cuse'}
 - name: Add user to webcamd group
-  user:
+  ansible.builtin.user:
     name: '{{ ansible_user_id }}'
     groups: webcamd
     append: true
-- name: Enable webcamd service
-  community.general.sysrc:
-    name: webcamd_enable
-    value: "YES"
-    state: present
 # Xorg
 - name: Add user to video group
   ansible.builtin.user:
     name: '{{ ansible_user_id }}'
     groups: video
     append: true
-- name: Install Xorg packages
+# GUI
+- name: Install GUI
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop:
     - xorg
-# GUI
-- name: Install GUI packages
-  ansible.builtin.package:
-    name: "{{ item }}"
-    state: present
-  loop:
     - firefox
     - flameshot
     - noto-emoji
