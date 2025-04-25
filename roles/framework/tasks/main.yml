@@ -23,7 +23,7 @@
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - webcamd
     - v4l-utils
     - v4l_compat
@@ -52,14 +52,14 @@
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - xorg
 # GUI
 - name: Install GUI packages
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - firefox
     - flameshot
     - noto-emoji

@@ -1,4 +1,3 @@
----
 # Intel
 - name: Load Intel CPU kernel modules
   become: yes
@@ -6,10 +5,9 @@
     name: kld_list
     value: "{{ item }}"
     state: value_present
-  with_items:
+  loop:
     - coretemp
     - cpuctl
-
 # All Framework Systems support hwpstate_intel,
 # which supercedes powerd
 - name: Don't enable powerd
@@ -18,17 +16,15 @@
     name: powerd_enable
     value: "NO"
     state: present
-
 - name: Install Intel drivers
   become: yes
   package:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - drm-61-kmod
     - gpu-firmware-kmod
     # - libva-intel-driver mesa-libs mesa-dri
-
 - name: Configure Intel DRM driver
   become: yes
   community.general.sysrc:

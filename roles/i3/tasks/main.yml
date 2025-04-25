@@ -1,11 +1,10 @@
----
 # i3
 - name: Install i3 packages
   become: yes
   package:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - i3
     - i3lock
     - arandr
@@ -26,4 +25,3 @@
 # F10 TODO
 # F11 Print
 # F12 XF86AudioMedia
-

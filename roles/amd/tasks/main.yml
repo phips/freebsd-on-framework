@@ -4,7 +4,7 @@
     name: kld_list
     value: "{{ item }}"
     state: value_present
-  with_items:
+  loop:
     - amdtemp
     - cpuctl
 # TODO: Is there a custom driver for AMD?
@@ -19,7 +19,7 @@
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - drm-kmod
     - gpu-firmware-kmod
 - name: Configure AMD DRM driver
