@@ -6,18 +6,15 @@
     state: present
   loop:
     - kde
-- name: Enable DBUS
-  become: yes
+    - avahi
+- name: sysrc settings
   community.general.sysrc:
-    name: dbus_enable
-    value: "YES"
-    state: present
-- name: Enable SDDM
-  become: yes
-  community.general.sysrc:
-    name: sddm_enable
-    value: "YES"
-    state: present
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  loop:
+    - {name: 'dbus_enable', value: "YES"}
+    - {name: 'sddm_enable', value: "YES"}
+    - {name: 'avahi_daemon_enable', value: "YES"}
 - name: Increase message size for KDE
   become: yes
   ansible.posix.sysctl:
