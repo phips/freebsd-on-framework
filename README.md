@@ -7,7 +7,7 @@ FreeBSD works on our systems and helps you set it up.
 ## Systems
 
 | System            | Mainboard                 | Status                              |
-|-------------------| --------------------------|-------------------------------------|
+| ----------------- | ------------------------- | ----------------------------------- |
 | Framework 12      | Intel 13th Gen            | Working well                        |
 | Framework 13      | Intel 11th Gen            | Working well                        |
 | Framework 13      | Intel 12th Gen            | Working well                        |
@@ -31,7 +31,7 @@ FreeBSD works on our systems and helps you set it up.
 9. `git clone https://github.com/FrameworkComputer/freebsd-on-framework`
 10. `cd freebsd-on-framework`
 11. Run `sudo ls` and type your password to unlock passwordless sudo
-12. Run your desired Playbook, e.g. `ansible-playbook kde-xorg.yml`
+12. Run your desired Playbook, e.g. `ansible-playbook -b kde-xorg.yml`
 
 ## Playbooks
 
@@ -110,6 +110,7 @@ The graphics driver in FreeBSD 14.1 does not work on this Intel CPU generation.
 At least DRM 6.6 is needed, which can be built with FreeBSD 15-CURRENT and [drm-kmod PR #283](https://github.com/freebsd/drm-kmod/pull/283).
 
 ### Framework Desktop (AMD Ryzen AI Max 300)
+
 - [x] USB-A
 - [x] USB-C
 - [x] SSD
@@ -167,7 +168,7 @@ The commands there are especially useful for Linux users coming to FreeBSD.
 - RZ616, RZ717 not supported yet
   - https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=264300
 - S0ix and s2idle not supported yet
-    - https://reviews.freebsd.org/D17675
-    - https://reviews.freebsd.org/D17676
+  - https://reviews.freebsd.org/D17675
+  - https://reviews.freebsd.org/D17676
 - AMD IOMMU Driver WIP
   - https://reviews.freebsd.org/D47256
