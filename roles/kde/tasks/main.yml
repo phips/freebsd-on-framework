@@ -1,36 +1,29 @@
----
 # KDE
 - name: Install KDE packages
   become: yes
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   with_items:
     - kde
-    - plasma6-sddm-kcm
-    - sddm
-    - networkmgr
-
 - name: Enable DBUS
   become: yes
   community.general.sysrc:
     name: dbus_enable
     value: "YES"
     state: present
-
 - name: Enable SDDM
   become: yes
   community.general.sysrc:
     name: sddm_enable
     value: "YES"
     state: present
-
 - name: Increase message size for KDE
   become: yes
   ansible.posix.sysctl:
     name: "{{ item }}"
     value: "65536"
     state: present
-  with_items:
+  loop:
     - net.local.stream.recvspace
     - net.local.stream.sendspace

@@ -1,34 +1,26 @@
----
 # - name: Configure Xorg to use Intel SCFB driver
 #   become: yes
 #   ansible.builtin.copy:
 #     src: "{{ role_path }}/files/20-intel.conf"
 #     dest: /usr/local/etc/X11/xorg.conf.d/20-intel.conf
-
 # DRM driver does not need any config
-- name: Don't use any Xorg Intel config
-  become: yes
-  file:
-    dest: /usr/local/etc/X11/xorg.conf.d/20-intel.conf
-    state: absent
-
+# possibly irrelevant now
+#- name: Don't use any Xorg Intel config
+#  file:
+#    dest: /usr/local/etc/X11/xorg.conf.d/20-intel.conf
+#    state: absent
 - name: Configure Xorg to enable libinput touchpad tapping
-  become: yes
   ansible.builtin.copy:
     src: "{{ role_path }}/files/40-libinput.conf"
     dest: /usr/local/etc/X11/xorg.conf.d/40-libinput.conf
-
 # Workaround for https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=263632
 - name: Stop WiFi after suspending
-  become: yes
   ansible.builtin.lineinfile:
     regexp: 'stop wlan0$'
     insertafter: '^# kldunload usb'
     path: /etc/rc.suspend
     line: /usr/sbin/service netif stop wlan0
-
 - name: Restart WiFi when resuming
-  become: yes
   ansible.builtin.lineinfile:
     regexp: 'start wlan0$'
     insertafter: '^# kldload usb'
