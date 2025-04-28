@@ -47,7 +47,7 @@
     - {name: 'kld_list', value: 'cuse'}
 - name: Add user to video and webcamd groups
   ansible.builtin.user:
-    name: ansible_facts["ansible_env"]["DOAS_USER"]
+    name: "{{ ansible_env['DOAS_USER'] }}"
     groups: video,webcamd
     append: true
 # GUI
