@@ -25,3 +25,8 @@
   loop:
     - net.local.stream.recvspace
     - net.local.stream.sendspace
+- name: Ensure SDDM defaults to X11 not Wayland
+  ansible.builtin.lineinfile:
+    path: /usr/local/etc/sddm.conf
+    regexp: '^DisplayServer='
+    line: 'DisplayServer=x11'
