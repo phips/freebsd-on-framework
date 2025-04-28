@@ -37,11 +37,6 @@
     name: 'webcamd_0_flags'
     value: '{{ webcamd.stdout }}'
   notify: 'Restart webcamd'
-#- name: Ensure user is in webcamd group
-#  ansible.builtin.user:
-#    name: '{{ username }}'
-#    groups: webcamd
-#    append: true
 - name: sysrc settings
   community.general.sysrc:
     name: "{{ item.name }}"
@@ -50,16 +45,10 @@
   loop:
     - {name: 'webcamd_enable', value: 'YES'}
     - {name: 'kld_list', value: 'cuse'}
-- name: Add user to webcamd group
+- name: Add user to video and webcamd groups
   ansible.builtin.user:
-    name: '{{ ansible_user_id }}'
-    groups: webcamd
-    append: true
-# Xorg
-- name: Add user to video group
-  ansible.builtin.user:
-    name: '{{ ansible_user_id }}'
-    groups: video
+    name: ansible_facts["ansible_env"]["DOAS_USER"]
+    groups: video,webcamd
     append: true
 # GUI
 - name: Install GUI
