@@ -1,9 +1,4 @@
 # Framework Generic
-- name: Make power button suspend instead of turning off
-  ansible.posix.sysctl:
-    name: hw.acpi.power_button_state
-    value: "S3"
-    state: present
 - name: Ethernet setup
   when: ansible_facts['default_ipv4'] == 'ue0'
   block:
@@ -58,7 +53,6 @@
   loop:
     - xorg
     - firefox
-    - flameshot
     - noto-emoji
     - noto-tc
     - urwfonts

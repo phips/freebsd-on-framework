@@ -1,4 +1,9 @@
 # Intel
+- name: Make power button suspend instead of turning off
+  ansible.posix.sysctl:
+    name: hw.acpi.power_button_state
+    value: "S3"
+    state: present
 - name: Load Intel CPU kernel modules
   become: yes
   community.general.sysrc:
